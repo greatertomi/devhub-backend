@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
 const userController = require('../controllers/users');
-const handleUserPicture = require('../middlewares/handleUserPicture');
+// const handleUserPicture = require('../middlewares/handleUserPicture');
 
 const router = Router();
 
 router.get('/', userController.getUsers);
 
-router.post('/', handleUserPicture, userController.registerUser);
+router.post('/', userController.registerUser);
 
 module.exports = router;

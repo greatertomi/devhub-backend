@@ -7,8 +7,9 @@ const userSchema = new Schema({
   email: String,
   password: { type: String, select: false },
   githubLink: String,
-  picture: String
 });
+
+// picture: String
 
 // mongoose.model('users', userSchema);
 mongoose.model('users', userSchema);
