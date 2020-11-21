@@ -34,6 +34,7 @@ exports.registerUser = async (request, response) => {
 
 exports.loginUser = async (request, response) => {
   const { email, reqPassword } = request.body;
+  console.log(request.body);
   try {
     const res = await User.find({ email });
     if (res.length >= 1) {
@@ -49,6 +50,8 @@ exports.loginUser = async (request, response) => {
       } else {
         response.status(401).send({ message: 'Wrong password.' });
       }
+    } else {
+      response.status(401).send({ message: 'User does not exist.' });
     }
   } catch (err) {
     console.log(err);
