@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = mongoose.model('users');
+
+const keys = require('../config/keys');
+const { response } = require('express');
 
 exports.getUsers = async (request, response) => {
   const res = await User.find();
@@ -22,30 +26,35 @@ exports.registerUser = async (request, response) => {
 
   try {
     await user.save();
-    response.send(user);
+    response.send({message: 'User saved'});
   } catch (err) {
     throw err;
   }
 };
 
-/* exports.registerUser = async (request, response) => {
-  const { fullName, email, password, githubLink } = request.body;
-  const { path } = request.file;
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = new User({
-    fullName,
-    email,
-    password: hashedPassword,
-    githubLink,
-    picture: path
-  });
-
+exports.loginUser = async (request, response) => {
+  const { email, reqPassword } = request.body;
   try {
-    await user.save();
-    response.send(user);
+    const res = await User.find({ email });
+    if (res.length >= 1) {
+      const { _id, password } = res[0];
+      const match = await bcrypt.compare(reqPassword, password);
+      if (match) {
+        const payload = {
+          _id,
+          email
+        };
+        const token = jwt.sign(payload, keys.jwtSecret);
+        response.send({ _id, token });
+      } else {
+        response.status(401).send({ message: 'Wrong password.' });
+      }
+    }
   } catch (err) {
-    throw err;
+    console.log(err);
   }
-}; */
+};
+
+exports.authTest = (request, response) => {
+  response.send({ message: 'Auth successful' });
+};

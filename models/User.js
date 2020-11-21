@@ -5,7 +5,7 @@ const userSchema = new Schema({
   userId: String,
   fullName: String,
   email: String,
-  password: { type: String, select: false },
+  password: String,
   githubLink: String,
 });
 
