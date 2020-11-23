@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const User = mongoose.model('users');
 
 const keys = require('../config/keys');
-const { response } = require('express');
 
 exports.getUsers = async (request, response) => {
   const res = await User.find();
