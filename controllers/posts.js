@@ -9,17 +9,17 @@ exports.getAllPosts = async (request, response) => {
 
 exports.createPost = async (request, response) => {
   const { userId, post } = request.body;
+  console.log(request.body);
 
   const newPost = new Post({
     _user: userId,
     post
   });
 
-  try {
+  /* try {
     await newPost.save();
     response.send({ message: 'Post Saved' });
   } catch (err) {
     console.log(err);
-  }
+  } */
 };
-

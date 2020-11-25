@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const User = mongoose.model('users');
 
 const keys = require('../config/keys');
-const { response } = require('express');
 
 exports.getUsers = async (request, response) => {
   const res = await User.find();
@@ -26,7 +25,7 @@ exports.registerUser = async (request, response) => {
 
   try {
     await user.save();
-    response.send({message: 'User saved'});
+    response.send({ message: 'User saved' });
   } catch (err) {
     throw err;
   }
