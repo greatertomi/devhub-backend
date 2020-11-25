@@ -33,7 +33,6 @@ exports.registerUser = async (request, response) => {
 
 exports.loginUser = async (request, response) => {
   const { email, reqPassword } = request.body;
-  console.log(request.body);
   try {
     const res = await User.find({ email });
     if (res.length >= 1) {

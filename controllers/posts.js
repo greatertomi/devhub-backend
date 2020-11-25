@@ -3,8 +3,22 @@ const mongoose = require('mongoose');
 const Post = mongoose.model('posts');
 
 exports.getAllPosts = async (request, response) => {
-  const res = await Post.find();
-  response.send(res);
+  try {
+    const res = await Post.find();
+    response.send(res);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getUserPosts = async (request, response) => {
+  const { userId } = request.params;
+  try {
+    const res = await Post.find({ _user: userId }).sort({ date: -1 });
+    response.send(res);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.createPost = async (request, response) => {
@@ -13,13 +27,25 @@ exports.createPost = async (request, response) => {
 
   const newPost = new Post({
     _user: userId,
-    post
+    post,
+    date: Date.now()
   });
 
-  /* try {
+  try {
     await newPost.save();
     response.send({ message: 'Post Saved' });
   } catch (err) {
     console.log(err);
-  } */
+  }
+};
+
+exports.deletePost = async (request, response) => {
+  const { postId } = request.params;
+
+  try {
+    await Post.findByIdAndDelete(postId);
+    response.send({ message: 'Post deleted' });
+  } catch (err) {
+    console.log(err);
+  }
 };

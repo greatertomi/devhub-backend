@@ -9,4 +9,8 @@ router.get('/', auth, postController.getAllPosts);
 
 router.post('/create', auth, postController.createPost);
 
+router.delete('/delete/:postId', auth, postController.deletePost);
+
+router.get('/:userId', auth, postController.getUserPosts);
+
 module.exports = router;
