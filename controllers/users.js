@@ -36,7 +36,7 @@ exports.loginUser = async (request, response) => {
   try {
     const res = await User.find({ email });
     if (res.length >= 1) {
-      const { _id, password } = res[0];
+      const { _id, password, fullName } = res[0];
       const match = await bcrypt.compare(reqPassword, password);
       if (match) {
         const payload = {
@@ -44,7 +44,7 @@ exports.loginUser = async (request, response) => {
           email
         };
         const token = jwt.sign(payload, keys.jwtSecret);
-        response.send({ _id, token });
+        response.send({ _id, token, fullName });
       } else {
         response.status(401).send({ message: 'Wrong password.' });
       }
