@@ -33,7 +33,8 @@ exports.createPost = async (request, response) => {
 
   try {
     await newPost.save();
-    response.send({ message: 'Post Saved' });
+    const res = await Post.find({ _user: userId }).sort({ date: -1 });
+    response.send(res);
   } catch (err) {
     console.log(err);
   }
